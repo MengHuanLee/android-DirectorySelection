@@ -196,21 +196,25 @@ public class DirectorySelectionFragment extends Fragment {
     //VisibileForTesting
     void createDirectory(Uri uri, String directoryName) {
         ContentResolver contentResolver = getActivity().getContentResolver();
-        Uri docUri = DocumentsContract.buildDocumentUriUsingTree(uri,
-                DocumentsContract.getTreeDocumentId(uri));
-        Uri directoryUri = DocumentsContract
-                .createDocument(contentResolver, docUri, Document.MIME_TYPE_DIR, directoryName);
-        if (directoryUri != null) {
-            Log.i(TAG, String.format(
-                    "Created directory : %s, Document Uri : %s, Created directory Uri : %s",
-                    directoryName, docUri, directoryUri));
-            Toast.makeText(getActivity(), String.format("Created a directory [%s]",
-                    directoryName), Toast.LENGTH_SHORT).show();
-        } else {
-            Log.w(TAG, String.format("Failed to create a directory : %s, Uri %s", directoryName,
-                    docUri));
-            Toast.makeText(getActivity(), String.format("Failed to created a directory [%s] : ",
-                    directoryName), Toast.LENGTH_SHORT).show();
+        try {
+            Uri docUri = DocumentsContract.buildDocumentUriUsingTree(uri,
+                    DocumentsContract.getTreeDocumentId(uri));
+            Uri directoryUri = DocumentsContract
+                    .createDocument(contentResolver, docUri, Document.MIME_TYPE_DIR, directoryName);
+            if (directoryUri != null) {
+                Log.i(TAG, String.format(
+                        "Created directory : %s, Document Uri : %s, Created directory Uri : %s",
+                        directoryName, docUri, directoryUri));
+                Toast.makeText(getActivity(), String.format("Created a directory [%s]",
+                        directoryName), Toast.LENGTH_SHORT).show();
+            } else {
+                Log.w(TAG, String.format("Failed to create a directory : %s, Uri %s", directoryName,
+                        docUri));
+                Toast.makeText(getActivity(), String.format("Failed to created a directory [%s] : ",
+                        directoryName), Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e){
+
         }
 
     }
